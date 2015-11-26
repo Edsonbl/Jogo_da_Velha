@@ -7,9 +7,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.*;
 
 public class Game extends JFrame {
-
-	JButton cbut1, cbut2, cbut3, cbut4, cbut5, cbut6, cbut7, cbut8, cbut9, but; // centro
-	JButton lbut1, lbut2, Sobrebut; // lest
+	
+	JButton cbut [][];// centro 
+	JButton bSair, bNovo, bSobre; // lest
 	JPanel lpanel[];// lest
 	JButton obut1; // oeste
 	JPanel p, opanel[];// oeste
@@ -17,7 +17,7 @@ public class Game extends JFrame {
 	JTextField campo1, campo2; // oeste
 	boolean player = true; // player of the game
 	int vic1, vic2, empate; // cont off victories and draws
-	ImageIcon iconX, iconO, iconB; // ICONES PARA OS BOTÕES
+	ImageIcon iconX, iconO, iconB; // Icones Para Os Botões
 	FlowLayout oFlow;
 
 	public Game() {
@@ -52,11 +52,11 @@ public class Game extends JFrame {
 		leste.setLayout(new GridLayout(9, 0));
 		leste.add(lpanel[0]);
 		leste.add(lpanel[1]);
-		leste.add(lpanel[2].add(lbut1 = new JButton("Sair do Jogo")));
+		leste.add(lpanel[2].add(bSair = new JButton("Sair do Jogo")));
 		leste.add(lpanel[3]);
-		leste.add(lpanel[4].add(lbut2 = new JButton("Novo Jogo")));
+		leste.add(lpanel[4].add(bNovo = new JButton("Novo Jogo")));
 		leste.add(lpanel[5]);
-		leste.add(lpanel[6].add(Sobrebut = new JButton("Sobre")));
+		leste.add(lpanel[6].add(bSobre = new JButton("Sobre")));
 		leste.add(lpanel[7]);
 		leste.add(lpanel[8]);
 
@@ -66,21 +66,29 @@ public class Game extends JFrame {
 		iconO = new ImageIcon(getClass().getResource("fotos/Rosquinha.png"));
 
 		// INICIALIZANDO OS BOTOES, MONTANDO O PAINEL CENTRAL
+		cbut = new JButton[3][3];
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				cbut[i][j] = new JButton();
+			}
+		}
+		
 		Container centro = new JPanel();
 		centro.setLayout(new GridLayout(3, 3, 5, 5));
 		centro.setSize(new Dimension(5, 5));
-		centro.add(cbut1 = new JButton(iconB));
-		centro.add(cbut2 = new JButton(iconB));
-		centro.add(cbut3 = new JButton(iconB));
-		centro.add(cbut4 = new JButton(iconB));
-		centro.add(cbut5 = new JButton(iconB));
-		centro.add(cbut6 = new JButton(iconB));
-		centro.add(cbut7 = new JButton(iconB));
-		centro.add(cbut8 = new JButton(iconB));
-		centro.add(cbut9 = new JButton(iconB));
+		
+		centro.add(cbut[0][0] = new JButton(iconB));
+		centro.add(cbut[0][1] = new JButton(iconB));
+		centro.add(cbut[0][2] = new JButton(iconB));
+		centro.add(cbut[1][0] = new JButton(iconB));
+		centro.add(cbut[1][1] = new JButton(iconB));
+		centro.add(cbut[1][2] = new JButton(iconB));
+		centro.add(cbut[2][0] = new JButton(iconB));
+		centro.add(cbut[2][1] = new JButton(iconB));
+		centro.add(cbut[2][2] = new JButton(iconB));
 
-		// MONTANDO O CONTAINER OESTE UTILIZANDO PAINEIS EXTRAS PARA DAR UMA
-		// ESTETICA MAIS AGRADAVEL
+		/* MONTANDO O CONTAINER OESTE UTILIZANDO PAINEIS EXTRAS PARA DAR UMA
+		ESTETICA MAIS AGRADAVEL*/
 		Container oeste = new JPanel(new GridLayout(16, 0, 5, 5));
 		oeste.add(opanel[0].add(txt1 = new JLabel("1º Jogador : ")));
 		oeste.add(opanel[1]);// .add(campo1 = new JTextField(10)));
@@ -107,207 +115,142 @@ public class Game extends JFrame {
 		cp.add(BorderLayout.EAST, leste);
 		cp.add(BorderLayout.WEST, oeste);
 
+		//ACAO DAS JOGADAS
 		MouseAdapter mouseGer = new MouseAdapter() {
 			public void mousePressed(MouseEvent g) {
-
+				//JOGADOR 1
 				if (player == true) {
 
-					if ((g.getSource() == cbut1)
-							&& (cbut1.getIcon().equals(iconB))) {
-						cbut1.setIcon(iconX);
+					if ((g.getSource() == cbut[0][0])&& (cbut[0][0].getIcon().equals(iconB))) {cbut[0][0].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut2)
-							&& (cbut2.getIcon().equals(iconB))) {
-						cbut2.setIcon(iconX);
+					} else if ((g.getSource() == cbut[0][1])&& (cbut[0][1].getIcon().equals(iconB))) {cbut[0][1].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut3)
-							&& (cbut3.getIcon().equals(iconB))) {
-						cbut3.setIcon(iconX);
+					} else if ((g.getSource() == cbut[0][2])&& (cbut[0][2].getIcon().equals(iconB))) {cbut[0][2].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut4)
-							&& (cbut4.getIcon().equals(iconB))) {
-						cbut4.setIcon(iconX);
+					} else if ((g.getSource() == cbut[1][0])&& (cbut[1][0].getIcon().equals(iconB))) {cbut[1][0].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut5)
-							&& (cbut5.getIcon().equals(iconB))) {
-						cbut5.setIcon(iconX);
+					} else if ((g.getSource() == cbut[1][1])&& (cbut[1][1].getIcon().equals(iconB))) {cbut[1][1].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut6)
-							&& (cbut6.getIcon().equals(iconB))) {
-						cbut6.setIcon(iconX);
+					} else if ((g.getSource() == cbut[1][2])&& (cbut[1][2].getIcon().equals(iconB))) {cbut[1][2].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut7)
-							&& (cbut7.getIcon().equals(iconB))) {
-						cbut7.setIcon(iconX);
+					} else if ((g.getSource() == cbut[2][0])&& (cbut[2][0].getIcon().equals(iconB))) {cbut[2][0].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut8)
-							&& (cbut8.getIcon().equals(iconB))) {
-						cbut8.setIcon(iconX);
+					} else if ((g.getSource() == cbut[2][1])&& (cbut[2][1].getIcon().equals(iconB))) {cbut[2][1].setIcon(iconX);
 						player = false;
-					} else if ((g.getSource() == cbut9)
-							&& (cbut9.getIcon().equals(iconB))) {
-						cbut9.setIcon(iconX);
+					} else if ((g.getSource() == cbut[2][2])&& (cbut[2][2].getIcon().equals(iconB))) {cbut[2][2].setIcon(iconX);
 						player = false;
 					}
 				}
+				//JOGADOR 2
+				/*
+				BOM E SO JOGAR O ALGORITIMO AQUI PARA QUE O JOGADOR 2 SEJA "CPU" NO LUGAR DOS IF'S 
+				VEM O RESULTADO DO ALGORITIMO DEPOIS ALTERA O BOOLEAN "player" PARA QUE O PRIMEIRO JOGADOR JOGUE
+				P.S.: DEXEI COMENTADO SO PARA QUESTÃO DE VISUALIZAR A IDEIA ANTERIOR!
+				*/ 
+				/*if (player == false) {
 
-				else if (player == false) {
-
-					if ((g.getSource() == cbut1)
-							&& (cbut1.getIcon().equals(iconB))) {
-						cbut1.setIcon(iconO);
+					if ((g.getSource() == cbut[0][0])&& (cbut[0][0].getIcon().equals(iconB))) {cbut[0][0].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut2)
-							&& (cbut2.getIcon().equals(iconB))) {
-						cbut2.setIcon(iconO);
+					} else if ((g.getSource() == cbut[0][1])&& (cbut[0][1].getIcon().equals(iconB))) {cbut[0][1].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut3)
-							&& (cbut3.getIcon().equals(iconB))) {
-						cbut3.setIcon(iconO);
+					} else if ((g.getSource() == cbut[0][2])&& (cbut[0][2].getIcon().equals(iconB))) {cbut[0][2].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut4)
-							&& (cbut4.getIcon().equals(iconB))) {
-						cbut4.setIcon(iconO);
+					} else if ((g.getSource() == cbut[1][0])&& (cbut[1][0].getIcon().equals(iconB))) {cbut[1][0].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut5)
-							&& (cbut5.getIcon().equals(iconB))) {
-						cbut5.setIcon(iconO);
+					} else if ((g.getSource() == cbut[1][1])&& (cbut[1][1].getIcon().equals(iconB))) {cbut[1][1].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut6)
-							&& (cbut6.getIcon().equals(iconB))) {
-						cbut6.setIcon(iconO);
+					} else if ((g.getSource() == cbut[1][2])&& (cbut[1][2].getIcon().equals(iconB))) {cbut[1][2].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut7)
-							&& (cbut7.getIcon().equals(iconB))) {
-						cbut7.setIcon(iconO);
+					} else if ((g.getSource() == cbut[2][0])&& (cbut[2][0].getIcon().equals(iconB))) {cbut[2][0].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut8)
-							&& (cbut8.getIcon().equals(iconB))) {
-						cbut8.setIcon(iconO);
+					} else if ((g.getSource() == cbut[2][1])&& (cbut[2][1].getIcon().equals(iconB))) {cbut[2][1].setIcon(iconO);
 						player = true;
-					} else if ((g.getSource() == cbut9)
-							&& (cbut9.getIcon().equals(iconB))) {
-						cbut9.setIcon(iconO);
+					} else if ((g.getSource() == cbut[2][2])&& (cbut[2][2].getIcon().equals(iconB))) {cbut[2][2].setIcon(iconO);
 						player = true;
 					}
-				}
+				}*/
 				FinalDaPartida();
 			}
 		};
-		// add buts
-		cbut1.addMouseListener(mouseGer);
-		cbut2.addMouseListener(mouseGer);
-		cbut3.addMouseListener(mouseGer);
-		cbut4.addMouseListener(mouseGer);
-		cbut5.addMouseListener(mouseGer);
-		cbut6.addMouseListener(mouseGer);
-		cbut7.addMouseListener(mouseGer);
-		cbut8.addMouseListener(mouseGer);
-		cbut9.addMouseListener(mouseGer);
+		//ADD ACAO DOS BUTS
+		cbut[0][0].addMouseListener(mouseGer);
+		cbut[0][1].addMouseListener(mouseGer);
+		cbut[0][2].addMouseListener(mouseGer);
+		cbut[1][0].addMouseListener(mouseGer);
+		cbut[1][1].addMouseListener(mouseGer);
+		cbut[1][2].addMouseListener(mouseGer);
+		cbut[2][0].addMouseListener(mouseGer);
+		cbut[2][1].addMouseListener(mouseGer);
+		cbut[2][2].addMouseListener(mouseGer);
 
 		MouseAdapter mouseGerLeste = new MouseAdapter() {
 			public void mousePressed(MouseEvent s) {
-				if (s.getSource() == lbut1) { // But "sair do jogo"
+				if (s.getSource() == bSair) { // But "sair do jogo"
 					System.exit(0);
 				}
-				if (s.getSource() == lbut2) { // But "novo jogo"
+				if (s.getSource() == bNovo) { // But "novo jogo"
 					Restart();
 				}
-				if (s.getSource() == Sobrebut) { // But "Sobre o jogo"
+				if (s.getSource() == bSobre) { // But "Sobre o jogo"
 					// InfDoJogo();
-					Window4();
+					Sobre();
 				}
 			}
 		};
-		lbut1.addMouseListener(mouseGerLeste);
-		lbut2.addMouseListener(mouseGerLeste);
-		Sobrebut.addMouseListener(mouseGerLeste);
+		bSair.addMouseListener(mouseGerLeste);
+		bNovo.addMouseListener(mouseGerLeste);
+		bSobre.addMouseListener(mouseGerLeste);
 
 		setResizable(false);
+		setSize(600, 300);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setSize(600, 300);
 	}
 
 	public void FinalDaPartida() { // Verificando vitorias e empates
-		if ((cbut1.getIcon().equals(cbut2.getIcon()) && cbut2.getIcon().equals(
-				cbut3.getIcon()))
-				&& cbut1.getIcon().equals(iconX)
-				|| (cbut4.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut6.getIcon()))
-				&& cbut4.getIcon().equals(iconX)
-				|| (cbut7.getIcon().equals(cbut8.getIcon()) && cbut8.getIcon()
-						.equals(cbut9.getIcon()))
-				&& cbut7.getIcon().equals(iconX)
-				||
-
-				(cbut1.getIcon().equals(cbut4.getIcon()) && cbut4.getIcon()
-						.equals(cbut7.getIcon()))
-				&& cbut1.getIcon().equals(iconX)
-				|| (cbut2.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut8.getIcon()))
-				&& cbut2.getIcon().equals(iconX)
-				|| (cbut3.getIcon().equals(cbut6.getIcon()) && cbut6.getIcon()
-						.equals(cbut9.getIcon()))
-				&& cbut3.getIcon().equals(iconX)
-				||
-
-				(cbut1.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut9.getIcon()))
-				&& cbut1.getIcon().equals(iconX)
-				|| (cbut3.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut7.getIcon()))
-				&& cbut3.getIcon().equals(iconX)) {
-			Window1();
+		//verificndo se a vitória é do jogador 1;
+		if ((cbut[0][0].getIcon().equals(cbut[0][1].getIcon()) && cbut[0][1].getIcon().equals(cbut[0][2].getIcon()))&& cbut[0][0].getIcon().equals(iconX)|| 
+			(cbut[1][0].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[1][2].getIcon()))&& cbut[1][0].getIcon().equals(iconX)|| 
+			(cbut[2][0].getIcon().equals(cbut[2][1].getIcon()) && cbut[2][1].getIcon().equals(cbut[2][2].getIcon()))&& cbut[2][0].getIcon().equals(iconX)||
+			(cbut[0][0].getIcon().equals(cbut[1][0].getIcon()) && cbut[1][0].getIcon().equals(cbut[2][0].getIcon()))&& cbut[0][0].getIcon().equals(iconX)|| 
+			(cbut[0][1].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[2][1].getIcon()))&& cbut[0][1].getIcon().equals(iconX)|| 
+			(cbut[0][2].getIcon().equals(cbut[1][2].getIcon()) && cbut[1][2].getIcon().equals(cbut[2][2].getIcon()))&& cbut[0][2].getIcon().equals(iconX)||
+			(cbut[0][0].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[2][2].getIcon()))&& cbut[0][0].getIcon().equals(iconX)|| 
+			(cbut[0][2].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[2][0].getIcon()))&& cbut[0][2].getIcon().equals(iconX)) 
+		{
+			Jogador_1_Win();
 			// JOptionPane.showMessageDialog(null,"Vencedor é o 1º jogador");
 			Restart();
 			vic1++;
 			txt2.setText("Vitórias do 1º Jogador: " + vic1);
-		
-		} else if ((cbut1.getIcon().equals(cbut2.getIcon()) && cbut2.getIcon()
-				.equals(cbut3.getIcon()))
-				&& cbut1.getIcon().equals(iconO)
-				|| (cbut4.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut6.getIcon()))
-				&& cbut4.getIcon().equals(iconO)
-				|| (cbut7.getIcon().equals(cbut8.getIcon()) && cbut8.getIcon()
-						.equals(cbut9.getIcon()))
-				&& cbut7.getIcon().equals(iconO)
-				||
-
-				(cbut1.getIcon().equals(cbut4.getIcon()) && cbut4.getIcon()
-						.equals(cbut7.getIcon()))
-				&& cbut1.getIcon().equals(iconO)
-				|| (cbut2.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut8.getIcon()))
-				&& cbut2.getIcon().equals(iconO)
-				|| (cbut3.getIcon().equals(cbut6.getIcon()) && cbut6.getIcon()
-						.equals(cbut9.getIcon()))
-				&& cbut3.getIcon().equals(iconO)
-				||
-
-				(cbut1.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut9.getIcon()))
-				&& cbut1.getIcon().equals(iconO)
-				|| (cbut3.getIcon().equals(cbut5.getIcon()) && cbut5.getIcon()
-						.equals(cbut7.getIcon()))
-				&& cbut3.getIcon().equals(iconO)) {
-			Window2();
+			//verificndo se a vitória é do jogador 1;		
+		} else if ((cbut[0][0].getIcon().equals(cbut[0][1].getIcon()) && cbut[0][1].getIcon().equals(cbut[0][2].getIcon()))&& cbut[0][0].getIcon().equals(iconO)|| 
+				   (cbut[1][0].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[1][2].getIcon()))&& cbut[1][0].getIcon().equals(iconO)|| 
+				   (cbut[2][0].getIcon().equals(cbut[2][1].getIcon()) && cbut[2][1].getIcon().equals(cbut[2][2].getIcon()))&& cbut[2][0].getIcon().equals(iconO)||
+				   (cbut[0][0].getIcon().equals(cbut[1][0].getIcon()) && cbut[1][0].getIcon().equals(cbut[2][0].getIcon()))&& cbut[0][0].getIcon().equals(iconO)|| 
+				   (cbut[0][1].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[2][1].getIcon()))&& cbut[0][1].getIcon().equals(iconO)|| 
+				   (cbut[0][2].getIcon().equals(cbut[1][2].getIcon()) && cbut[1][2].getIcon().equals(cbut[2][2].getIcon()))&& cbut[0][2].getIcon().equals(iconO)||
+				   (cbut[0][0].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[2][2].getIcon()))&& cbut[0][0].getIcon().equals(iconO)|| 
+				   (cbut[0][2].getIcon().equals(cbut[1][1].getIcon()) && cbut[1][1].getIcon().equals(cbut[2][0].getIcon()))&& cbut[0][2].getIcon().equals(iconO)) 
+		{
+			Jogador_2_Win();
 			// JOptionPane.showMessageDialog(null,"Vencedor é o 2º jogador");
 			Restart();
 			vic2++;
 			txt4.setText("Vitórias do 2º Jogador: " + vic2);
-		} else if (!(cbut1.getIcon().equals(iconB))
-				&& !(cbut2.getIcon().equals(iconB))
-				&& !(cbut3.getIcon().equals(iconB))
-				&& !(cbut4.getIcon().equals(iconB))
-				&& !(cbut5.getIcon().equals(iconB))
-				&& !(cbut6.getIcon().equals(iconB))
-				&& !(cbut7.getIcon().equals(iconB))
-				&& !(cbut8.getIcon().equals(iconB))
-				&& !(cbut9.getIcon().equals(iconB))) {
-			Window3();
+			//verificndo se a ocorreu um empate;
+		} else if (!(cbut[0][0].getIcon().equals(iconB))
+				&& !(cbut[0][1].getIcon().equals(iconB))
+				&& !(cbut[0][2].getIcon().equals(iconB))
+				&& !(cbut[1][0].getIcon().equals(iconB))
+				&& !(cbut[1][1].getIcon().equals(iconB))
+				&& !(cbut[1][2].getIcon().equals(iconB))
+				&& !(cbut[2][0].getIcon().equals(iconB))
+				&& !(cbut[2][1].getIcon().equals(iconB))
+				&& !(cbut[2][2].getIcon().equals(iconB))) 
+		{
+			Empate();
 			// JOptionPane.showMessageDialog(null,"Empate");
 			Restart();
 			empate++;
@@ -315,36 +258,42 @@ public class Game extends JFrame {
 		}
 	}
 
-	public void Restart() {
-		cbut1.setIcon(iconB);
-		cbut2.setIcon(iconB);
-		cbut3.setIcon(iconB);
-		cbut4.setIcon(iconB);
-		cbut5.setIcon(iconB);
-		cbut6.setIcon(iconB);
-		cbut7.setIcon(iconB);
-		cbut8.setIcon(iconB);
-		cbut9.setIcon(iconB);
+	public void Restart() 
+	{
+		cbut[0][0].setIcon(iconB);
+		cbut[0][1].setIcon(iconB);
+		cbut[0][2].setIcon(iconB);
+		cbut[1][0].setIcon(iconB);
+		cbut[1][1].setIcon(iconB);
+		cbut[1][2].setIcon(iconB);
+		cbut[2][0].setIcon(iconB);
+		cbut[2][1].setIcon(iconB);
+		cbut[2][2].setIcon(iconB);
 		player = true;
 	}
 
-	public void Window1() {
+	public void Jogador_1_Win() 
+	{
 		new VictoryP1();
 	}
 
-	public void Window2() {
+	public void Jogador_2_Win() 
+	{
 		new VictoryP2();
 	}
 
-	public void Window3() {
+	public void Empate() 
+	{
 		new Empate();
 	}
 
-	public void Window4() {
+	public void Sobre() 
+	{
 		new Sobre();
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		new Game();
 	}
 }

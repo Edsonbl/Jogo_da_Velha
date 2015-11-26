@@ -32,10 +32,11 @@ public class Empate extends JFrame{
 		
 
 		setResizable(false);
-	//	setLocationRelativeTo(null);
+		pack();
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setVisible(true);
-		pack();
+
 	}
 	public void Style(){
 		txtE.setForeground(Color.ORANGE);

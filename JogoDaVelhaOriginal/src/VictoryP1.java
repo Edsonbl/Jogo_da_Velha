@@ -20,17 +20,14 @@ public class VictoryP1 extends JFrame{
 		p1.add(campoImg1);
 		s1.add(nome1);
 		Style();
-	//	p = new getContentPane();
-	//	setLocationRelativeTo(null);
+		pack();
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setVisible(true);
-		pack();
+		
 	}
 	public void Style(){
 		nome1.setFont(new Font("Arial", Font.BOLD, 30));
 		nome1.setForeground(Color.GREEN);
 	}
-	//public static void main(String[] args) {
-	//	new VictoryP2();
-	//}
 }
