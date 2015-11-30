@@ -2,6 +2,8 @@ package ambienteJogo;
 import java.io.Serializable;
 import java.util.Random;
 
+import javax.swing.JButton;
+
 public class Matriz implements Serializable{
 	CelulaMatriz [][] matriz;
 	int numeracaoMatriz;
@@ -39,7 +41,7 @@ public class Matriz implements Serializable{
 		return resultado;
 	}
 	
-	public void atualizaPorcentagemEstado(CelulaMatriz matrizAux[][], float taxaAprendizado){
+	public void atualizaPorcentagemEstado(CelulaMatriz matrizAux[][], double taxaAprendizado){
 		for(int linha = 0; linha < 3; linha++){
 			for(int coluna = 0; coluna < 3; coluna++){
 				matriz[linha][coluna].setPorcentagem(matriz[linha][coluna].getPorcentagem() + taxaAprendizado*(matrizAux[linha][coluna].getPorcentagem() - matriz[linha][coluna].getPorcentagem()));
@@ -47,9 +49,9 @@ public class Matriz implements Serializable{
 		}		
 	}
 	
-	public int [] verificaMelhorAcao(){
-		int [] resultado = new int[2];
-		float melhorAcao = matriz[0][0].getPorcentagem();
+	public double [] verificaMelhorAcao(){
+		double [] resultado = new double[4];
+		double melhorAcao = matriz[0][0].getPorcentagem();
 		
 		for(int linha = 0; linha < 3; linha++){
 			for (int coluna = 1; coluna < 3; coluna++){
@@ -58,6 +60,8 @@ public class Matriz implements Serializable{
 					System.out.println("Melhor Ação: "+melhorAcao);
 					resultado[0] = linha;
 					resultado[1] = coluna;
+					resultado[2] = 1;
+					resultado[3] = melhorAcao;
 				}
 			}
 		}
@@ -68,8 +72,8 @@ public class Matriz implements Serializable{
 		return resultado;
 	}
 	
-	public int [] verificaMelhorAcaoRandomica(){
-		int resultado[] = new int [2];
+	public double [] verificaMelhorAcaoRandomica(){
+		double resultado[] = new double [4];
 		Random random = new Random();
 		boolean encontrouRandomico = false;
 		int linha;
@@ -81,6 +85,8 @@ public class Matriz implements Serializable{
 				encontrouRandomico = true;
 				resultado[0] = linha;
 				resultado[1] = coluna;
+				resultado[2] = 0;
+				resultado[3] = 0.5;
 			}
 		}
 		return resultado;
@@ -102,7 +108,7 @@ public class Matriz implements Serializable{
 	public void voltaPorcentagemInicial(){
 		for(int linha = 0; linha < 3; linha++){
 			for(int coluna = 0; coluna < 3; coluna++){
-				matriz[linha][coluna].setPorcentagem((float)0.5);
+				matriz[linha][coluna].setPorcentagem(0.5);
 			}
 		}
 	}

@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.management.relation.RelationNotification;
 import javax.print.DocFlavor.URL;
@@ -31,7 +33,7 @@ public class FrameJogadorVSRobo extends JFrame{
 	AprendizadoReforco ar;
 	Matriz estadoAtual;
 	int vitoriasJogador, vitoriasComputador, empates, jogou[][];
-	float aprendizado;
+	double aprendizado;
 	boolean iniciouJogada;
 	
 	public FrameJogadorVSRobo(){
@@ -75,7 +77,7 @@ public class FrameJogadorVSRobo extends JFrame{
 			public void keyTyped(KeyEvent ev) {
 				String caracteres="0987654321.";
 				lbBalao.setIcon(icBalaoAmarelo);
-				lbBalao.setText("Vou modificar meu aprendizado!!!");
+				lbBalao.setText("<html>Vou modificar <br>meu aprendizado!!!<html>");
 				lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 				lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
 
@@ -145,7 +147,7 @@ public class FrameJogadorVSRobo extends JFrame{
 		lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 		lbBalao.setVerticalTextPosition( SwingConstants.CENTER );
 		add(lbBalao);
-		lbBalao.setBounds(780, 5, 200, 200);
+		lbBalao.setBounds(730, 5, 300, 200);
 
 		lbRobo = new JLabel();
 		lbRobo.setIcon(icRobo);
@@ -176,8 +178,15 @@ public class FrameJogadorVSRobo extends JFrame{
 		ar = new AprendizadoReforco();
 		this.limpaEstadoAtual();
 		
-		aprendizado = (float)0.1;
+		aprendizado = 0.1;
 		iniciouJogada = false;
+		
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e){
+				ar.gravarArquivo();
+			}
+		});
+
 	}
 
 	private class eventosJogo implements ActionListener{
@@ -198,21 +207,28 @@ public class FrameJogadorVSRobo extends JFrame{
 					atualizaEstadoAtual();
 					jogou[linha][coluna] = 1;
 					if(!FinalDaPartida()){
-						int jogadaCPU[] = ar.jogadaCPU(estadoAtual);
-						btJogo[jogadaCPU[0]][jogadaCPU[1]].setIcon(icO);
+						double jogadaCPU[] = ar.jogadaCPU(estadoAtual);
+						btJogo[(int)jogadaCPU[0]][(int)jogadaCPU[1]].setIcon(icO);
 						atualizaEstadoAtual();
-						jogou[jogadaCPU[0]][jogadaCPU[1]] = 1;
-						lbBalao.setIcon(icBalaoVerde);
-						lbBalao.setText("Sua Vez!");
-						lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
-						lbBalao.setVerticalTextPosition( SwingConstants.CENTER );
-
+						jogou[(int)jogadaCPU[0]][(int)jogadaCPU[1]] = 1;
+						if(jogadaCPU[2] == 0){
+							lbBalao.setIcon(icBalaoVerde);
+							lbBalao.setText("Sua Vez!");
+							lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
+							lbBalao.setVerticalTextPosition( SwingConstants.CENTER );							
+						}
+						else {
+							lbBalao.setIcon(icBalaoAmarelo);
+							lbBalao.setText("<html>Lembrei dessa <br>jogada, com a ação <br>valendo: <br>"+jogadaCPU[3]+"</html>");
+							lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
+							lbBalao.setVerticalTextPosition( SwingConstants.CENTER );
+						}
 						FinalDaPartida();
 					}									
 				}
 				else{
 					lbBalao.setIcon(icBalaoVermelho);
-					lbBalao.setText("Essa casa já foi preenchida");
+					lbBalao.setText("<html>Essa casa já <br>foi preenchida</html>");
 					lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 					lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
 				}
@@ -220,23 +236,23 @@ public class FrameJogadorVSRobo extends JFrame{
 				break;
 			case APRENDIZADO:
 				if(!iniciouJogada){
-					if(aprendizado < Float.parseFloat(tfAprendizado.getText())){
+					if(aprendizado < Double.parseDouble(tfAprendizado.getText())){
 						lbBalao.setIcon(icBalaoAzul);
-						lbBalao.setText("Vou Aprender mais rápido");
+						lbBalao.setText("<html>Vou Aprender <br>mais rápido</html>");
 						lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 						lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
 					}
 					else{
 						lbBalao.setIcon(icBalaoVermelho);
-						lbBalao.setText("Vou Aprender mais devagar");
+						lbBalao.setText("<html>Vou Aprender <br>mais devagar<html>");
 						lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 						lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
 					}
-					aprendizado = Float.parseFloat(tfAprendizado.getText());
+					aprendizado = Double.parseDouble(tfAprendizado.getText());
 				}
 				else{
 					lbBalao.setIcon(icBalaoAmarelo);
-					lbBalao.setText("Só pode modificar o aprendizado no inicio da rodada!!!");
+					lbBalao.setText("<html>Só pode modificar<br> o aprendizado no inicio<br> da rodada!!!</html>");
 					lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 					lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
 					tfAprendizado.setText("0.1");
@@ -244,7 +260,7 @@ public class FrameJogadorVSRobo extends JFrame{
 				break;
 			case REINICIARPLACAR:
 				lbBalao.setIcon(icBalaoBranco);
-				lbBalao.setText("O placar foi reiniciado!!!");
+				lbBalao.setText("<html>O placar foi <br>reiniciado!!!</html>");
 				lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
 				lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
 				vitoriasJogador = 0;
@@ -255,6 +271,11 @@ public class FrameJogadorVSRobo extends JFrame{
 				lbEmpates.setText("Empates: "+empates);
 				break;
 			case ESQUECERAPRENDIZADO:
+				lbBalao.setIcon(icBalaoBranco);
+				lbBalao.setText("Esqueci de tudo...");
+				lbBalao.setHorizontalTextPosition( SwingConstants.CENTER );
+				lbBalao.setVerticalTextPosition( SwingConstants.CENTER );					
+				ar.deletarArquivo();
 				break;
 			}
 		}
@@ -284,7 +305,7 @@ public class FrameJogadorVSRobo extends JFrame{
 		{
 			JOptionPane.showMessageDialog(null,"Vencedor é o 1º jogador");
 			limpaEstadoAtual();
-			ar.finalPartida(1, (float)0.1);
+			ar.finalPartida(1,aprendizado);
 			Restart();
 			vitoriasJogador++;
 			lbVitoriasJogador.setText("Vitórias do Jogador: "+vitoriasJogador);
@@ -305,7 +326,7 @@ public class FrameJogadorVSRobo extends JFrame{
 		{
 			JOptionPane.showMessageDialog(null,"Vencedor é o computador");
 			limpaEstadoAtual();
-			ar.finalPartida(0,(float)0.1);
+			ar.finalPartida(0,aprendizado);
 			Restart();
 			vitoriasComputador++;
 			lbVitoriasCPU.setText("Vitórias do computador: "+vitoriasComputador);
@@ -328,7 +349,7 @@ public class FrameJogadorVSRobo extends JFrame{
 		{
 			JOptionPane.showMessageDialog(null,"Empate");
 			limpaEstadoAtual();
-			ar.finalPartida(2,(float)0.1);
+			ar.finalPartida(2,aprendizado);
 			Restart();
 			empates++;
 			lbEmpates.setText("Empates: "+empates);
@@ -378,6 +399,4 @@ public class FrameJogadorVSRobo extends JFrame{
 	public static void main(String []args){
 		FrameJogadorVSRobo frame = new FrameJogadorVSRobo();
 	}
-
-
 }

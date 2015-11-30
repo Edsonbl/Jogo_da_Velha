@@ -3,11 +3,11 @@ import java.io.Serializable;
 
 public class CelulaMatriz implements Serializable{
 	private int jogadorCPUVazio;
-	private float porcentagem;
+	private double porcentagem;
 	
 	public CelulaMatriz(){
 		jogadorCPUVazio = 0;
-		porcentagem = (float)0.5;
+		porcentagem = 0.5;
 	}
 	
 	public int getJogadorCPUVazio() {
@@ -16,10 +16,10 @@ public class CelulaMatriz implements Serializable{
 	public void setJogadorCPUVazio(int jogadorCPUVazio) {
 		this.jogadorCPUVazio = jogadorCPUVazio;
 	}
-	public float getPorcentagem() {
+	public double getPorcentagem() {
 		return porcentagem;
 	}
-	public void setPorcentagem(float porcentagem) {
+	public void setPorcentagem(double porcentagem) {
 		this.porcentagem = porcentagem;
 	}
 	

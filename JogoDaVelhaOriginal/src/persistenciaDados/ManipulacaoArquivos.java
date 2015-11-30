@@ -1,51 +1,66 @@
 package persistenciaDados;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+
+import ambienteJogo.Matriz;
 //import Matriz;
+
 
 public class ManipulacaoArquivos {
 	public void novoArquivo(){
 		try{
-			FileOutputStream fo = new FileOutputStream("Inteligencia.arp");
-			ObjectOutputStream arquivo = new ObjectOutputStream(fo);
-			
-			arquivo.close();
-			fo.close();
+			File arquivo = new File("Inteligencia.arp");
+			if(!arquivo.exists()){
+				arquivo.createNewFile();
+			}
 		} 
 		catch(Exception erro){
 			JOptionPane.showMessageDialog(null, "Erro", "Erro ao salvar arquivo", JOptionPane.ERROR_MESSAGE);
 		}
 	}
-	/*
-	public ArrayList<Matriz> abrirAmbiente(){
-		String diretorioArquivo = null;
-		JFileChooser escolhe = new JFileChooser();
-		Celula[][] ambiente = new Celula[7][20];
-		FileNameExtensionFilter filtro = new FileNameExtensionFilter("Arquivos de ambiente (*.rpa)", "rpa");
-		escolhe.setFileFilter(filtro);
-
-		if (escolhe.showOpenDialog(null) == 0){
-			diretorioArquivo = escolhe.getSelectedFile().getPath();
-			diretorioArquivo = diretorioArquivo.replace('\\', '/');
-
-			try{
-				FileInputStream fi = new FileInputStream(diretorioArquivo);
-				ObjectInputStream arquivo = new ObjectInputStream(fi);
-				ambiente = (Celula[][]) arquivo.readObject();
-				arquivo.close();
+	
+	public ArrayList<Matriz> lerArquivo(){
+		ArrayList<Matriz> matrizArquivo = new ArrayList<Matriz>();
+		try{
+			File arquivo = new File("Inteligencia.arp");
+			if(arquivo.exists() && arquivo.length() > 0){
+				FileInputStream fi = new FileInputStream(arquivo);
+				ObjectInputStream ois = new ObjectInputStream(fi);
+				matrizArquivo = (ArrayList<Matriz>) ois.readObject();
+				ois.close();
 				fi.close();
-				local = diretorioArquivo;
-			} 
-			catch(Exception erro){
-				JOptionPane.showMessageDialog(null, "Erro ao abrir arquivo", "Erro", JOptionPane.ERROR_MESSAGE);
 			}
+		} 
+		catch(Exception erro){
+			JOptionPane.showMessageDialog(null, "Erro ao abrir arquivo", "Erro", JOptionPane.ERROR_MESSAGE);
 		}
-
-		return ambiente;
-	}*/		
-
+		return matrizArquivo;
+	}
+	
+	public void gravaArquivo(ArrayList<Matriz> matrizArquivo){
+		try {
+			FileOutputStream fi = new FileOutputStream(
+					"Inteligencia.arp");
+			ObjectOutputStream arquivo = new ObjectOutputStream(fi);
+			arquivo.writeObject(matrizArquivo);
+			arquivo.close();
+			fi.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void deletarArquivo(){
+		File arquivo = new File("Inteligencia.arp");
+		arquivo.delete();
+		novoArquivo();
+	}
 	
 }

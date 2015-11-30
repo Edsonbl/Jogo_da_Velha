@@ -1,22 +1,27 @@
 package ambienteJogo;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-public class AprendizadoReforco {
+import persistenciaDados.ManipulacaoArquivos;
+
+public class AprendizadoReforco{
 	private ArrayList<Matriz> matrizesArquivo;
 	private ArrayList<Matriz> matrizTemporaria;
+	private ManipulacaoArquivos arquivo;
 
 	public AprendizadoReforco(){
-		//Ler arquivo se tiver se não cria um novo arquivo
-		matrizesArquivo = new ArrayList<Matriz>();
+		arquivo = new ManipulacaoArquivos();
+		arquivo.novoArquivo();
+		matrizesArquivo = arquivo.lerArquivo();
 		matrizTemporaria = new ArrayList<Matriz>();
-
 	}
 
-	public int[] jogadaCPU(Matriz estadoAtual){
+	public double[] jogadaCPU(Matriz estadoAtual){
 		estadoAtual.numeracaoMatriz = -1;
-		int resultado [] = new int [2];
+		double resultado [] = new double [4];
 		boolean lembrouJogada = false;
 
 		for(int i = 0; i < matrizesArquivo.size(); i++){
@@ -35,12 +40,11 @@ public class AprendizadoReforco {
 			resultado = matrizAux.verificaMelhorAcaoRandomica();
 		}
 
-		matrizTemporaria.get(matrizTemporaria.size() - 1).matriz[resultado[0]][resultado[1]].setPorcentagem(1);
-
+		matrizTemporaria.get(matrizTemporaria.size() - 1).matriz[(int)resultado[0]][(int)resultado[1]].setPorcentagem(1);
 		return resultado;
 	}
 
-	public void finalPartida(int vencedor, float taxaAprendizagem){
+	public void finalPartida(int vencedor, double taxaAprendizagem){
 		if(vencedor == 0){
 			for (int i = 0; i < matrizTemporaria.size(); i++){
 				if(matrizTemporaria.get(i).numeracaoMatriz == -1){					
@@ -80,14 +84,14 @@ public class AprendizadoReforco {
 					Matriz matrizAux = new Matriz(matrizTemporaria.get(i));
 					matrizAux.voltaPorcentagemInicial();
 					int linhaColuna[] = matrizTemporaria.get(i).pegaValor1();
-					matrizTemporaria.get(i).matriz[linhaColuna[0]][linhaColuna[1]].setPorcentagem((float)0.5);
+					matrizTemporaria.get(i).matriz[linhaColuna[0]][linhaColuna[1]].setPorcentagem(0.5);
 					matrizAux.atualizaPorcentagemEstado(matrizTemporaria.get(i).matriz, taxaAprendizagem);
 					matrizesArquivo.add(matrizAux);
 
 				}
 				else {
 					int linhaColuna[] = matrizTemporaria.get(i).pegaValor1();
-					matrizTemporaria.get(i).matriz[linhaColuna[0]][linhaColuna[1]].setPorcentagem((float)0.5);
+					matrizTemporaria.get(i).matriz[linhaColuna[0]][linhaColuna[1]].setPorcentagem(0.5);
 					matrizesArquivo.get(matrizTemporaria.get(i).numeracaoMatriz).atualizaPorcentagemEstado(matrizTemporaria.get(i).matriz, taxaAprendizagem);
 				}				
 			}			
@@ -100,5 +104,13 @@ public class AprendizadoReforco {
 				}
 			}			
 		}
+	}
+	
+	public void gravarArquivo(){
+		arquivo.gravaArquivo(matrizesArquivo);
+	}
+	
+	public void deletarArquivo(){
+		arquivo.deletarArquivo();
 	}
 }
